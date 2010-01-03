@@ -3,7 +3,7 @@
 Plugin Name: Image Symlinks
 Plugin URI: http://noscope.com/
 Description: Extremely simple wrapper for TimThumb&trade; which adds an <code>[img]</code> shortcode for inserting symlink images.
-Version: 0.5
+Version: 0.5.1
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
