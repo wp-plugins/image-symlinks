@@ -40,6 +40,16 @@ Optional parameters:
 * `alt`
 * `crop`
 
+== Screenshots ==
+
+1. The new media button
+
+2. The insertion dialog. Just click a thumbnail to insert it.
+
+3. The options page where you can configure the defaults.
+
+4. The builtin uploader which circumvents the Wordpress Media Library (if you want it).
+
 == Changelog ==
 
 * 0.1: First functional plugin.
