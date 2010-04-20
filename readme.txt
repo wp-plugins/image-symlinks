@@ -9,7 +9,7 @@ Stable tag: trunk
 
 This plugin is an alternative to the builtin Wordpress image system. Instead of resizing images on upload, it resizes images when you need them, and according to the sizes you specify. The only difference is, you insert images using an [img] shortcode instead of the img HTML tag.
 
-'''New in 0.6:''' Insert images in the bulk. The image insertion box will no longer close upon inserting an image, allowing you to insert a bunch of pictures in just a few clicks.
+<strong>New in 0.6:</strong> Insert images in the bulk. The image insertion box will no longer close upon inserting an image, allowing you to insert a bunch of pictures in just a few clicks.
 
 == Installation ==
 
