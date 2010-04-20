@@ -3,7 +3,7 @@
 Plugin Name: Image Symlinks
 Plugin URI: http://noscope.com/
 Description: Extremely simple wrapper for TimThumb&trade; which adds an <code>[img]</code> shortcode for inserting symlink images.
-Version: 0.6
+Version: 0.6.1
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
@@ -83,9 +83,9 @@ if ( ! defined( 'WP_PLUGIN_URL' ) )
 if ( ! defined( 'WP_PLUGIN_DIR' ) )
 	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 	
-$plugin_dirname = split("/plugins/", dirname(__FILE__));
-define('SYMLINK_PLUGIN_DIRNAME', $plugin_dirname[1]); 
-
+// $plugin_dirname = split("/plugins/", basename(dirname(__FILE__)));
+// define('SYMLINK_PLUGIN_DIRNAME', $plugin_dirname[1]);
+define('SYMLINK_PLUGIN_DIRNAME', plugin_basename(dirname(__FILE__))); 
 
 
 
