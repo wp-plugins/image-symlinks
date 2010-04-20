@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Image Symlinks
-Plugin URI: http://noscope.com/?p=5747
+Plugin URI: http://noscope.com/
 Description: Extremely simple wrapper for TimThumb&trade; which adds an <code>[img]</code> shortcode for inserting symlink images.
-Version: 0.5.1
+Version: 0.6
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
@@ -32,7 +32,6 @@ Author URI: http://noscope.com
 
 
 		- insert tab tweaks
-			- a way to insert images in the bulk
 			- perhaps by default when an image is clicked, it is "selected" after which an "insert" button becomes ungreyed	
 			- crop should be possible
 			
@@ -390,12 +389,15 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 	
 	echo '</div>';
 
+	// notification message
+	echo '
+	<div id="notice"><p></p></div>
+	';
 
-
-	// pagination
+// pagination
 	echo '
 	<ul class="pagination">
-		Page '.($s_page +1).' of '.$pages.' &nbsp; &nbsp; 
+	<li class="page">Page '.($s_page +1).' of '.$pages.' &nbsp; &nbsp; </li>
 	';
 	
 		for ($i=0; $i < $pages; $i++) {
@@ -416,7 +418,6 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 
 
 
-
 	
 	
 	
@@ -424,101 +425,14 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 	
 	// CSS
 	?>
-	<style type="text/css">
-	.subnav {
-		margin: 0 0 20px 0;
-	}
-	.subnav li {
-		display: inline;
-		margin-right: 5px;
-	}
-	.subnav li.active a {
-		color: #666;
-		text-decoration: none;
-	}
-	.pagination {
-		clear: both;	
-		margin: 80px 0 0 0;
-		color: #999;
-		font-size: 7pt;
-	}
-	.pagination li {
-		list-style: none;
-		display: inline;
-		margin: 0 3px;
-	}
-	.pagination li.current a, .pagination a:hover {
-		color:  #666;
-		text-decoration: none;
-		border: 1px solid #ccc;
-		background: #eee;
-	}
-	.pagination a {
-		padding: 5px 7px;
-		border: 1px solid #fff;
-	}
-	#symlink-image-list {
-		margin: 0;
-	}
-	#symlink-image-list span {
-		display: none;
-	}
-	#symlink-image-list li {
-		list-style: none;
-		display: inline;
-		margin: 0;
-		padding: 0;
-	}
-	#symlink-image-list li img {
-		background: #666;
-		display: block;
-		width: 50px;
-		height: 50px;
-	}
-	#symlink-image-list li a {
-		display: block;
-		float: left;
-		width: 50px;
-		height: 50px;
-		border: 1px solid #ccc;
-		background-color: #eee;
-		background-repeat: no-repeat;
-		background-position: center center;
-		padding: 5px;
-		margin: 0 5px 5px 0;
-	}
-	#symlink-image-list li a:hover {
-		background-color: #fefefe;
-	}
-	.nextprev {
-		clear: both;
-		width: 200px;
-	}
-	.prev a {
-		padding: 10px 0;
-		display: block;
-		width: 100px;
-		float: left;
-	}
-	.next a {
-		padding: 10px 0;
-		display: block;
-		width: 100px;
-		float: right;
-		text-align: right;
-	}
-	</style>
-
-	
-	
+	<link rel="stylesheet" href="<?php echo WP_PLUGIN_URL . "/" . SYMLINK_PLUGIN_DIRNAME; ?>/image-symlinks.css" type="text/css" />
+	<script type="text/javascript" src="<?php echo WP_PLUGIN_URL . "/" . SYMLINK_PLUGIN_DIRNAME; ?>/image-symlinks.js"></script>
 	<script type="text/javascript">
-	
-	var win = window.dialogArguments || opener || parent || top;
 	
 	jQuery(document).ready(function(){
 									
 		jQuery('#symlink-image-list a').click(function () {
-	
+														
 			<?php if ($_GET['subnav'] == "wp" || get_option('symlinks_uploaddir') == "") { 
 			
 				$wpdir = wp_upload_dir();
@@ -538,8 +452,8 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 		
 			var symlink = '[img '+filename+'] ';	<?php // need the trailing space, because two shortcodes right next to eachother might fail ?>
 	
-	
-			win.send_to_editor(symlink); 
+			symlink_send_to_editor(symlink); 
+			
 			return false;
 	
 		});
@@ -613,10 +527,11 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 
 
 	<link rel="stylesheet" href="<?php echo $uploadify_url; ?>/uploadify/uploadify.css" type="text/css" />
+	<link rel="stylesheet" href="<?php echo WP_PLUGIN_URL . "/" . SYMLINK_PLUGIN_DIRNAME; ?>/image-symlinks.css" type="text/css" />
 	<script type="text/javascript" src="<?php echo $uploadify_url; ?>/uploadify/jquery-1.3.2.min.js"></script>
 	<script type="text/javascript" src="<?php echo $uploadify_url; ?>/uploadify/swfobject.js"></script>
 	<script type="text/javascript" src="<?php echo $uploadify_url; ?>/uploadify/jquery.uploadify.js"></script>
-		
+	<script type="text/javascript" src="<?php echo WP_PLUGIN_URL . "/" . SYMLINK_PLUGIN_DIRNAME; ?>/image-symlinks.js"></script>
 		
 	<script type="text/javascript">
 	jQuery(document).ready(function() {
@@ -671,8 +586,8 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 			 */
 			,'onComplete' : function(event, queueID, fileObj, response, data) {
 
-				jQuery('#status').append('<span style="display: none;" id="'+queueID+'">[img src="'+fileObj.name+'"]</span>');				
-				var msg = fileObj.name + " [<a href=\"javascript:win.send_to_editor(jQuery('#"+queueID+"').html() );\">insert</a>]";
+				jQuery('#status').append('<span style="display: none;" id="'+queueID+'">[img src="'+fileObj.name+'"] </span>');				
+				var msg = fileObj.name + " [<a href=\"javascript:symlink_send_to_editor(jQuery('#"+queueID+"').html() );\">insert</a>]";
 				jQuery('#status').append(msg + "<br />");
 				
 				
@@ -693,6 +608,8 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 	<div id="fileUpload">You have a problem with your javascript</div>
 	
 	<div id="status"></div>
+
+	<div id="notice"><p></p></div>
 
 	<div id="note">
 		<p><em>Your server is configured to upload files no larger than <?php echo ini_get('upload_max_filesize'); ?>.<br />
