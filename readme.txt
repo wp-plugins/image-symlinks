@@ -24,6 +24,13 @@ This plugin is an alternative to the builtin Wordpress image system. Instead of 
 * Go to the options page, and specify plugin defaults
 * If you want to specify a different upload folder than the default (`wp-content/uploads`), you need to make sure that directory is writable.
 
+== Screenshots ==
+
+1. The new media button.
+2. The insertion dialog. Just click a thumbnail to insert it.
+3. The options page where you can configure the defaults.
+4. The builtin uploader which circumvents the Wordpress Media Library (if you want it).
+
 == Syntax ==
 
 > `[img src="filename.png" width="500" height="400" /]`
@@ -39,16 +46,6 @@ Optional parameters:
 * `class`
 * `alt`
 * `crop`
-
-== Screenshots ==
-
-1. The new media button
-
-2. The insertion dialog. Just click a thumbnail to insert it.
-
-3. The options page where you can configure the defaults.
-
-4. The builtin uploader which circumvents the Wordpress Media Library (if you want it).
 
 == Changelog ==
 
