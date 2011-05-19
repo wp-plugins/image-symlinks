@@ -3,7 +3,7 @@
 Plugin Name: Image Symlinks
 Plugin URI: http://noscope.com/
 Description: Extremely simple wrapper for TimThumb&trade; which adds an <code>[img]</code> shortcode for inserting symlink images.
-Version: 0.6.1
+Version: 0.7
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
@@ -14,8 +14,7 @@ Author URI: http://noscope.com
 
 	todo:
 		
-		- create cache directory for people!
-			- option to customize location of cache directory
+		- option to customize location of cache directory
 
 		- when no custom upload directory is specified, a 2.9 subdirectory such as "uploads/symlink-images" should be used:
 
@@ -39,31 +38,12 @@ Author URI: http://noscope.com
 			- error message when images are too large!
 
 
-		- offer to create image upload and cache directories for the user
-			
-					if ( ! is_dir('thumbs') ) {
-						mkdir('thumbs');
-					}
-
-
-			
 		- plugin should be l10n translatable
 
 
 	options:
 	
 		- autolink defaults
-
-		
-	timthumb:
-	
-		- timthumbs cachedir should be customizable, for instance in an options page
-		- timthumb should have nicer error messages, for instance if php safe mode is on, or cache directory isn't writable
-		- rudimentary abuse prevention methods such as checking the referrer or maybe even the wordpress login cookie
-		
-	 	
-
-
 
 
 	
@@ -83,8 +63,6 @@ if ( ! defined( 'WP_PLUGIN_URL' ) )
 if ( ! defined( 'WP_PLUGIN_DIR' ) )
 	define( 'WP_PLUGIN_DIR', WP_CONTENT_DIR . '/plugins' );
 	
-// $plugin_dirname = split("/plugins/", basename(dirname(__FILE__)));
-// define('SYMLINK_PLUGIN_DIRNAME', $plugin_dirname[1]);
 define('SYMLINK_PLUGIN_DIRNAME', plugin_basename(dirname(__FILE__))); 
 
 
@@ -603,9 +581,9 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 
 <div style="padding: 0 10px;">
 
-	<h3 class="media-title">Upload Image Files</h3>
+	<h3 class="media-title"><?php _e('Upload Image Files', 'image-symlinks'); ?></h3>
 
-	<div id="fileUpload">You have a problem with your javascript</div>
+	<div id="fileUpload"><?php _e('You have a problem with your javascript', 'image-symlinks'); ?></div>
 	
 	<div id="status"></div>
 
@@ -712,7 +690,7 @@ function insertSymlinkImage($attr) {
 		
 	} else {
 		
-		die('Error: You need to specify an upload directory on the options page.');
+		die(__('Error: You need to specify an upload directory on the options page.', 'image-symlinks'));
 		
 	}
 		
@@ -747,6 +725,7 @@ function insertSymlinkImage($attr) {
 		$attr['link'] = $attr['src'];
 	}*/
 
+
 	
 	// default width
 	if ($attr['width']) {
@@ -770,7 +749,7 @@ function insertSymlinkImage($attr) {
 	/**
 	 * form string
 	 */
-	$string .= '<div class=\"si\">';
+	$string .= '<div class="si">';
 	
 			
 		if ($attr['link'] != "false") {

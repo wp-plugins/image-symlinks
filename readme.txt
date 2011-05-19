@@ -2,7 +2,7 @@
 Contributors: Joen
 Tags: gallery, images, pictures
 Requires at least: 2.7
-Tested up to: 2.9
+Tested up to: 3.1
 Stable tag: trunk
 
 == Description ==
@@ -10,6 +10,8 @@ Stable tag: trunk
 This plugin is an alternative to the builtin Wordpress image system. Instead of resizing images on upload, it resizes images when you need them, and according to the sizes you specify. The only difference is, you insert images using an [img] shortcode instead of the img HTML tag.
 
 <strong>New in 0.6:</strong> Insert images in the bulk. The image insertion box will no longer close upon inserting an image, allowing you to insert a bunch of pictures in just a few clicks.
+
+<strong>New in 0.7:</strong> If your `wp-content` directory is writable, the cache directory will be created automatically.
 
 == Installation ==
 
@@ -55,4 +57,5 @@ Optional parameters:
 * 0.4: Tweak to the options page, including the ability to select upload directory.
 * 0.5: HUGE fixes to the page insertion dialog box. Now you can even insert images that are uploaded using Wordpress' uploader.
 * 0.6: Insert images in the bulk.
+* 0.7: Updated TimThumb to latest version (a bit faster it seems), and updated icon to fit 3.1 style. Additionally, made it so cache directory is automatically generated. Should make it easier to upgrade. Default directory is wp-content/image-symlinks-cache
 
