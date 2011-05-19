@@ -87,7 +87,7 @@ $new_width =  (int) abs (get_request ('w', 0));
 $new_height = (int) abs (get_request ('h', 0));
 $zoom_crop = (int) get_request ('zc', 1);
 $quality = (int) abs (get_request ('q', 90));
-$align = get_request ('a', 'c');
+$align = get_request ('a', 'tl');	// joen, default c
 $filters = get_request ('f', '');
 $sharpen = (bool) get_request ('s', 0);
 
@@ -126,11 +126,11 @@ if (file_exists ($src)) {
 	if ($new_width == null || $new_width > $width) {
 		$new_width = $width;
 	}
-	if ($new_height > $height) {
+	/*if ($new_height > $height) {
 		$new_height = $height;
 	} else if ($new_height == null) {
 		$new_height = $height;
-	}
+	}*/
 	// joen end
 
 	
