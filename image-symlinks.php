@@ -3,7 +3,7 @@
 Plugin Name: Image Symlinks
 Plugin URI: http://noscope.com/
 Description: Simple wrapper for TimThumb&trade; which adds <code>[img]</code> and <code>[latestimages]</code> shortcodes for inserting symbolic link images which are easy to size-refresh when you change your theme.
-Version: 0.8
+Version: 0.8.1
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
@@ -865,7 +865,8 @@ function insertLatestImages($attr) {
 
 
 	// output gallery
-	echo '<ul id="latestimages">';
+	$latestimages = "";
+	$latestimages .= '<ul id="latestimages">';
 
 	if ($files) {
 	
@@ -878,7 +879,7 @@ function insertLatestImages($attr) {
 
 
 
-					echo '
+					$latestimages .= '
 					<li>
 						<a href="'.$upload_dir.'/'.$file[1].'">
 							<img src="'.$timthumb . '?src=' . $upload_dir.'/'.$file[1].'&w='.$attr['size'].'&h='.$attr['size'].'" alt="'.$file[1].'" width="'.$attr['size'].'" height="'.$attr['size'].'" />
@@ -892,9 +893,9 @@ function insertLatestImages($attr) {
 		}		
 	}
 
-	echo '</ul>';
+	$latestimages .= '</ul>';
 
-
+	return $latestimages;
 
 
 
