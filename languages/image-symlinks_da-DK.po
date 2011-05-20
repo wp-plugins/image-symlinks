@@ -1,0 +1,137 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Image Symlinks\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-20 14:44+0100\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Joen Asmussen <asmussen@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: ..\n"
+
+#: ../image-symlinks.php:70
+#: ../image-symlinks.php:175
+msgid "Insert symlink image"
+msgstr "Indsæt symlink billede"
+
+#: ../image-symlinks.php:99
+msgid "Upload Symlink Images"
+msgstr "Upload symlink billeder"
+
+#: ../image-symlinks.php:101
+msgid "Insert Symlink Images"
+msgstr "Indsæt symlink billeder"
+
+#: ../image-symlinks.php:245
+msgid "Insert from my custom library"
+msgstr "Indsæt fra mit eget mediebibliotek"
+
+#: ../image-symlinks.php:246
+msgid "Insert from my WordPress media library"
+msgstr "Indsæt fra WordPress' mediebibliotek"
+
+#: ../image-symlinks.php:347
+msgid "&larr; Previous Page"
+msgstr "&larr; Forrige side"
+
+#: ../image-symlinks.php:350
+msgid "Next Page &rarr;"
+msgstr "Næste side &rarr;"
+
+#: ../image-symlinks.php:478
+#: ../image-symlinks.php:691
+msgid "Error: You need to specify an upload directory on the options page."
+msgstr "Fejl: Du er nødt til at specifiere et upload bibliotek på indstillingssiden."
+
+#: ../image-symlinks.php:557
+msgid "Click to insert this image:"
+msgstr "Klik for at indsætte dette billede: "
+
+#: ../image-symlinks.php:579
+msgid "Upload Image Files"
+msgstr "Upload billed-filer"
+
+#: ../image-symlinks.php:581
+msgid "You have a problem with your javascript"
+msgstr "Du har et problem med din javascript"
+
+#: ../image-symlinks.php:587
+msgid "Click thumbnails to insert images. When you're done, you can close this window."
+msgstr "Klik thumbnails for at indsætte billeder. Når du er færdig kan du lukke dette vindue."
+
+#: ../image-symlinks.php:591
+#, php-format
+msgid "<em>Your server is configured to upload files no larger than %dm. <br />Also, this totally fast uploader requires the <a href=\"http://get.adobe.com/flashplayer/\">Flash Player</a>.</em>"
+msgstr "<em>Din server er konfigurereret til at uploade filer ikke større end %dm. <br />I øvrigt kræver denne totalt hurtige uploader <a href=\"http://get.adobe.com/flashplayer/\">Flash Player</a>.</em>"
+
+#: ../image-symlinks.php:816
+msgid "Image Symlinks"
+msgstr "Billede Symlinks"
+
+#: ../image-symlinks.php:858
+msgid "Options updated"
+msgstr "Indstillinger opdateret"
+
+#: ../image-symlinks.php:892
+#, php-format
+msgid "%s Settings"
+msgstr "%s Indstillinger"
+
+#: ../image-symlinks.php:894
+msgid "<em>What's an \"image symlink\"?</em> Symlink is short for \"symbolic link\", so image symlink is a symbolic link to an image. You store a large source image, and the symbolic link fetches an appropriate size for your convenience."
+msgstr "<em>Hvad er et \"billede symlink\"?</em> Symlink er kort for \"symbols link\", så billede symlink betyder symbolsk link til et billede. Altså, du gemmer et stort kilde-billede, og det symbolske link henter så en størrelse af billedet som passer dig."
+
+#: ../image-symlinks.php:896
+msgid "Syntax: <code>[img src=\"filename.jpg\" width=\"300\" height=\"200\"]</code>"
+msgstr "Syntaks: <code>[img src=\"filnavn.jpg\" width=\"300\" height=\"200\"]</code>"
+
+#: ../image-symlinks.php:900
+#: ../image-symlinks.php:963
+msgid "Save Changes"
+msgstr "Gem ændringer"
+
+#: ../image-symlinks.php:904
+msgid "Defaults"
+msgstr "Standardindstillinger"
+
+#: ../image-symlinks.php:908
+msgid "Default width of your symlink images:"
+msgstr "Standard bredde af dine symlink billeder:"
+
+#: ../image-symlinks.php:919
+msgid "Default CSS class name of your symlink images:"
+msgstr "Standard CSS klasse navn af dine symlink billeder:"
+
+#: ../image-symlinks.php:935
+msgid "Super Advanced"
+msgstr "Super avanceret"
+
+#: ../image-symlinks.php:937
+msgid "If you specify your own upload directory, you'll be able to use <em>Image Symlinks</em>' built-in uploader, which doesn't store anything in your database. The benefit is that you can specify any directory on your website, even one that belongs to a gallery of a different system, such as <a href=\"http://zenphoto.org\">Zenphoto</a>, and then you'll be able to easily insert and scale images in WordPress posts."
+msgstr "Hvis du specifierer dit eget upload bibliotek, kan du benytte <em>Billede Symlinks</em>' indbyggede uploader, som ikke gemmer noget i databasen. Fordelen er at du kan specifiere en sti til et hvilket som helst bibliotek på dit website, endda et der hører til et helt seperat gallerisystem, f.eks. <a href=\"http://zenphoto.org\">Zenphoto</a>."
+
+#: ../image-symlinks.php:938
+msgid "To do this, you have to:"
+msgstr "For at gøre dette, skal du:"
+
+#: ../image-symlinks.php:940
+msgid "Create your directory on your webserver (if you're not specifying an existing directory)"
+msgstr "Oprette et bibliotek på din webserver (hvis du da ikke specifierer et eksisterende bibliotek)"
+
+#: ../image-symlinks.php:941
+msgid "Make sure that directory is writable (<code>chmod 777</code>)"
+msgstr "Sørge for at dette bibliotek ikke er skrivebeskyttet (<code>chmod 777</code>)"
+
+#: ../image-symlinks.php:942
+msgid "Input the relative path to the directory below (for instance, if you've installed Zenphoto in <code>http://example.com/zenphoto/</code>, type in <code>/zenphoto/albums/</code>)"
+msgstr "Indsæt den relative sti til dette bibliotek (f.eks. hvis du har installeret Zenphoto i <code>http://example.com/zenphoto/</code>, indsæt <code>/zenphoto/albums/</code>)"
+
+#: ../image-symlinks.php:946
+msgid "Default upload directory:"
+msgstr "Standard upload bibliotek:"
+

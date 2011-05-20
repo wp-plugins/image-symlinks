@@ -2,17 +2,12 @@
 
 	Cache dir for TimThumb
 
-	Todo:
-	- make this dir configurable through admin
-	- move this stuff to plugin onactivate somehow
-	- move mkdir back to wp_mkdir_p
-	
 */
 
 // TimThumb parameters
-//define ('DIRECTORY_CACHE', './cache');
+define ('MAX_FILE_SIZE', 3000000);			// file size limit to prevent possible DOS attacks (roughly 1.5 megabytes)
 
-
+// Custom Cache directory
 define('WP_CONTENT_DIR', '../..'); // ugly, but will work for this
 define('DIRECTORY_CACHE', WP_CONTENT_DIR . '/image-symlinks-cache');
 
