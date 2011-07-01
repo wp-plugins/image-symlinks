@@ -24,7 +24,28 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-// more secure uploader
+//define constants
+define('WP_ADMIN',true);
+define('DOING_AJAX',true);
+
+//load wp
+require_once '../../../../wp-load.php';
+
+// security check
+$i	= wp_nonce_tick();
+$uid	= $_REQUEST['userid'];
+$nonce 	= $_REQUEST['_wpnonce'];
+
+global $current_user;
+wp_set_current_user($uid);
+
+
+if(!current_user_can("upload_files"))  die();
+
+
+check_admin_referer('symlinksnonce');
+
+// okay then
 if (!empty($_FILES)) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
 	$targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
@@ -46,6 +67,7 @@ if (!empty($_FILES)) {
 			$noMatch = 1;
 		}
 	}
+	
 	
 	if(!$noMatch){ // People are bad. I told you...	
 		echo "This file is not allowed...";

@@ -73,3 +73,4 @@ Optional parameters:
 * 0.7: Updated TimThumb to latest version (a bit faster it seems), and updated icon to fit 3.1 style. Additionally, made it so cache directory is automatically generated. Should make it easier to upgrade. Default directory is wp-content/image-symlinks-cache
 * 0.8: Various tweaks. Made plugin translatable, and provided po file as well as danish translation. Increased max filesize of uploaded image. Massively polished the "insert after upload" experienced, and now showing a clickable thumbnail for insertion. Also added beta shortcode, [latestimages] which shows the last 15 images you've uploaded.
 * 0.8.3: Security fix.
+* 0.8.4: Security hardening release.
