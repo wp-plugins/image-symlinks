@@ -23,25 +23,39 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
+
+// more secure uploader
 if (!empty($_FILES)) {
 	$tempFile = $_FILES['Filedata']['tmp_name'];
 	$targetPath = $_SERVER['DOCUMENT_ROOT'] . $_REQUEST['folder'] . '/';
 	$targetFile =  str_replace('//','/',$targetPath) . $_FILES['Filedata']['name'];
 	
+	// Uncomment the following line if you want to make the directory if it doesn't exist
+	// mkdir(str_replace('//','/',$targetPath), 0755, true);
 	
-	// $fileTypes  = str_replace('*.','',$_REQUEST['fileext']);
-	// $fileTypes  = str_replace(';','|',$fileTypes);
-	// $typesArray = split('\|',$fileTypes);
-	// $fileParts  = pathinfo($_FILES['Filedata']['name']);
+	// Define allowed extensions
+	$allowable = array ( 'jpg', 'gif', 'png' );
+	$fileext = strtolower(substr( $_FILES['Filedata']['name'], -3 ));
+  
+	// Assume evil upload  
+	$noMatch = 0;
+  
+	// Give it a try with this tiny extensionckeck 	
+	foreach( $allowable as $ext ) {
+		if ( strcasecmp( $fileext, $ext ) == 0 ) {
+			$noMatch = 1;
+		}
+	}
 	
-	// if (in_array($fileParts['extension'],$typesArray)) {
-		// Uncomment the following line if you want to make the directory if it doesn't exist
-		// mkdir(str_replace('//','/',$targetPath), 0755, true);
-		
+	if(!$noMatch){ // People are bad. I told you...	
+		echo "This file is not allowed...";
+		exit();
+	}
+	else { // Or some may not...
 		move_uploaded_file($tempFile,$targetFile);
 		echo "1";
-	// } else {
-	// 	echo 'Invalid file type.';
-	// }
+	}
 }
+
+
 ?>
