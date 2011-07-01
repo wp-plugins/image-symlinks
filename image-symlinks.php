@@ -3,7 +3,7 @@
 Plugin Name: Image Symlinks
 Plugin URI: http://noscope.com/
 Description: Simple wrapper for TimThumb&trade; which adds <code>[img]</code> and <code>[latestimages]</code> shortcodes for inserting symbolic link images which are easy to size-refresh when you change your theme.
-Version: 0.8.3
+Version: 0.8.4
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
@@ -497,7 +497,11 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 	<script type="text/javascript" src="<?php echo $uploadify_url; ?>/uploadify/swfobject.js"></script>
 	<script type="text/javascript" src="<?php echo $uploadify_url; ?>/uploadify/jquery.uploadify.js"></script>
 	<script type="text/javascript" src="<?php echo WP_PLUGIN_URL . "/" . SYMLINK_PLUGIN_DIRNAME; ?>/image-symlinks.js"></script>
-		
+
+	<?php
+	$nonce=wp_create_nonce('symlinksnonce');
+	$current_user = wp_get_current_user();
+	?>
 	<script type="text/javascript">
 	jQuery(document).ready(function() {
 
@@ -505,6 +509,7 @@ function media_upload_symlinks($type,$errors=null,$id=null) {
 			'uploader': '<?php echo $uploadify_url; ?>/uploadify/uploadify.swf'
 			,'cancelImg': '<?php echo $uploadify_url; ?>/uploadify/cancel.png'
 			,'script': '<?php echo $uploadify_url; ?>/uploadify/uploadify.php'
+			,'scriptData': {'_wpnonce': '<?php echo $nonce; ?>','userid': '<?php echo $current_user->ID; ?>'}
 			,'folder': '<?php echo $upload_dir; ?>'
 			,'multi': true
 			,'fileExt' : '*.jpg;*.jpeg;*.png;*.gif'
