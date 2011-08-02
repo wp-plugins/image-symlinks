@@ -2,7 +2,7 @@
 Contributors: Joen
 Tags: gallery, images, pictures
 Requires at least: 2.7
-Tested up to: 3.1
+Tested up to: 3.2
 Stable tag: trunk
 
 == Description ==
@@ -74,3 +74,4 @@ Optional parameters:
 * 0.8: Various tweaks. Made plugin translatable, and provided po file as well as danish translation. Increased max filesize of uploaded image. Massively polished the "insert after upload" experienced, and now showing a clickable thumbnail for insertion. Also added beta shortcode, [latestimages] which shows the last 15 images you've uploaded.
 * 0.8.3: Security fix.
 * 0.8.4: Security hardening release.
+* 0.8.5: Security fix for TimThumb, incl. latest version of the plugin.

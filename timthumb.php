@@ -10,14 +10,13 @@
  * http://www.binarymoon.co.uk/projects/timthumb/
  */
 
-
 define ('CACHE_SIZE', 1000);				// number of files to store before clearing cache
 define ('CACHE_CLEAR', 20);					// maximum number of files to delete on each cache clear
 define ('CACHE_USE', TRUE);					// use the cache files? (mostly for testing)
 define ('CACHE_MAX_AGE', 864000);			// time to cache in the browser
-define ('VERSION', '1.28');					// version number (to force a cache refresh)
-//define ('DIRECTORY_CACHE', './cache');		// cache directory
-require_once('./config.php');
+define ('VERSION', '1.33');					// version number (to force a cache refresh)
+//define ('DIRECTORY_CACHE', './cache');		// cache directory // joen
+require_once('./config.php');	// joen
 define ('MAX_WIDTH', 1500);					// maximum image width
 define ('MAX_HEIGHT', 1500);				// maximum image height
 define ('ALLOW_EXTERNAL', FALSE);			// allow external website (override security precaution - not advised!)
@@ -26,14 +25,16 @@ define ('MAX_FILE_SIZE', 1500000);			// file size limit to prevent possible DOS 
 define ('CURL_TIMEOUT', 10);				// timeout duration. Tweak as you require (lower = better)
 
 // external domains that are allowed to be displayed on your website
-$allowedSites = array (
+/*$allowedSites = array (
 	'flickr.com',
 	'picasa.com',
 	'blogger.com',
 	'wordpress.com',
 	'img.youtube.com',
 	'upload.wikimedia.org',
-);
+	'photobucket.com',
+);*/
+$allowedSites =  array();
 
 // STOP MODIFYING HERE!
 // --------------------
@@ -90,6 +91,7 @@ $quality = (int) abs (get_request ('q', 90));
 $align = get_request ('a', 'tl');	// joen, default c
 $filters = get_request ('f', '');
 $sharpen = (bool) get_request ('s', 0);
+$canvas_color = get_request ('cc', 'ffffff');
 
 // set default width and height if neither are set already
 if ($new_width == 0 && $new_height == 0) {
@@ -100,10 +102,10 @@ if ($new_width == 0 && $new_height == 0) {
 }
 
 // ensure size limits can not be abused
-if ($fixme) {	// joen
+//if ($fixme) {	// joen
 $new_width = min ($new_width, MAX_WIDTH);
 $new_height = min ($new_height, MAX_HEIGHT);
-}	// joen
+//}	// joen
 
 // set memory limit to be able to have enough space to resize larger images
 ini_set ('memory_limit', MEMORY_LIMIT);
@@ -121,19 +123,15 @@ if (file_exists ($src)) {
     $height = imagesy ($image);
 	$origin_x = 0;
 	$origin_y = 0;
-	
+
+
 	// joen begin: Ensure images are not scaled up beyond their initial size
 	if ($new_width == null || $new_width > $width) {
 		$new_width = $width;
+		$new_height = $height;
 	}
-	/*if ($new_height > $height) {
-		$new_height = $height;
-	} else if ($new_height == null) {
-		$new_height = $height;
-	}*/
 	// joen end
 
-	
     // generate new w/h if not provided
     if ($new_width && !$new_height) {
         $new_height = floor ($height * ($new_width / $width));
@@ -154,12 +152,21 @@ if (file_exists ($src)) {
 
 	}
 
+
 	// create a new true color image
 	$canvas = imagecreatetruecolor ($new_width, $new_height);
 	imagealphablending ($canvas, false);
 
+	if (strlen ($canvas_color) < 6) {
+		$canvas_color = 'ffffff';
+	}
+
+	$canvas_color_R = hexdec (substr ($canvas_color, 0, 2));
+	$canvas_color_G = hexdec (substr ($canvas_color, 2, 2));
+	$canvas_color_B = hexdec (substr ($canvas_color, 2, 2));
+
 	// Create a new transparent color for image
-	$color = imagecolorallocatealpha ($canvas, 0, 0, 0, 127);
+	$color = imagecolorallocatealpha ($canvas, $canvas_color_R, $canvas_color_G, $canvas_color_B, 127);
 
 	// Completely fill the background of the new image with allocated color.
 	imagefill ($canvas, 0, 0, $color);
@@ -471,14 +478,15 @@ function filemtime_compare ($a, $b) {
 function mime_type ($file) {
 
 	$file_infos = getimagesize ($file);
-	$mime_type = $file_infos['mime'];
-
+	
 	// no mime type
-	if (empty ($mime_type)) {
-		display_error ('no mime type specified');
+	if (empty ($file_infos['mime'])) {
+		display_error ('no mime type specified in image');
 	}
 
-    // use mime_type to determine mime type
+	$mime_type = $file_infos['mime'];
+
+	// use mime_type to determine mime type
     if (!preg_match ("/jpg|jpeg|gif|png/i", $mime_type)) {
 		display_error ('Invalid src mime type: ' . $mime_type);
     }
@@ -509,7 +517,7 @@ function check_cache ($mime_type) {
 				// give 777 permissions so that developer can overwrite
 				// files created by web server user
 				mkdir (DIRECTORY_CACHE);
-				chmod (DIRECTORY_CACHE, 0777);
+				chmod (DIRECTORY_CACHE, 0777); // joen
 			}
 		}
 
@@ -542,7 +550,7 @@ function show_cache_file ($mime_type) {
 		$gmdate_modified = gmdate ('D, d M Y H:i:s') . ' GMT';
 
 		// send content headers then display image
-		header ('Content-Type: ' . $mime_type);
+		header ('Content-Type: image/' . get_file_type ($mime_type));
 		header ('Accept-Ranges: bytes');
 		header ('Last-Modified: ' . $gmdate_modified);
 		header ('Content-Length: ' . filesize ($cache_file));
@@ -569,6 +577,29 @@ function show_cache_file ($mime_type) {
 
 /**
  *
+ * @param type $extension
+ * @return type 
+ */
+function get_file_type ($extension) {
+	
+	switch ($extension) {
+		case 'png':
+		case 'gif':
+			return 'png';
+			
+		case 'jpg':
+		case 'jpeg':
+			return 'jpeg';
+			
+		default:
+			display_error ('file type not found : ' . $extension);
+	}
+	
+}
+
+
+/**
+ *
  * @staticvar string $cache_file
  * @param <type> $mime_type
  * @return string
@@ -578,15 +609,9 @@ function get_cache_file ($mime_type) {
     static $cache_file;
 	global $src;
 
-	$file_type = '.png';
-
-	if ($mime_type == 'jpg') {
-		$file_type = '.jpg';
-    }
-
     if (!$cache_file) {
 		// filemtime is used to make sure updated files get recached
-        $cache_file = DIRECTORY_CACHE . '/' . md5 ($_SERVER ['QUERY_STRING'] . VERSION . filemtime ($src)) . $file_type;
+        $cache_file = DIRECTORY_CACHE . '/' . md5 ($_SERVER ['QUERY_STRING'] . VERSION . filemtime ($src)) . '.' . $mime_type;
     }
 
     return $cache_file;
@@ -616,10 +641,9 @@ function check_external ($src) {
 	global $allowedSites;
 
 	// work out file details
-	$fileDetails = pathinfo ($src);
 	$filename = 'external_' . md5 ($src);
-	$local_filepath = DIRECTORY_CACHE . '/' . $filename . '.' . strtolower ($fileDetails['extension']);
-
+	$local_filepath = DIRECTORY_CACHE . '/' . $filename;
+	
 	// only do this stuff the file doesn't already exist
 	if (!file_exists ($local_filepath)) {
 
@@ -630,6 +654,10 @@ function check_external ($src) {
 			}
 
 			$url_info = parse_url ($src);
+
+			if (count (explode ('.', $url_info['path'])) > 2) {
+				display_error ('source filename invalid');
+			}			
 
 			// convert youtube video urls
 			// need to tidy up the code
@@ -687,6 +715,16 @@ function check_external ($src) {
 
 					curl_close ($ch);
 					fclose ($fh);
+					
+					// check it's actually an image
+					$file_infos = getimagesize ($local_filepath);
+
+					// no mime type or invalid mime type
+					if (empty ($file_infos['mime']) || !preg_match ("/jpg|jpeg|gif|png/i", $file_infos['mime'])) {
+						unlink ($local_filepath);
+						touch ($local_filepath);
+						display_error ('remote file not a valid image');
+					}					
 
                 } else {
 
@@ -773,7 +811,7 @@ function clean_source ($src) {
     // don't allow users the ability to use '../'
     // in order to gain access to files below document root
     $src = preg_replace ("/\.\.+\//", "", $src);
-
+	
     // get path to image on file system
     $src = get_document_root ($src) . '/' . $src;
 
@@ -788,7 +826,7 @@ function clean_source ($src) {
 	if (filesize ($src) <= 0) {
 		display_error ('source file <= 0 bytes. Possible external file download error (file is too large)');
 	}
-	
+
     return realpath ($src);
 
 }
