@@ -14,7 +14,7 @@ define ('CACHE_SIZE', 1000);				// number of files to store before clearing cach
 define ('CACHE_CLEAR', 20);					// maximum number of files to delete on each cache clear
 define ('CACHE_USE', TRUE);					// use the cache files? (mostly for testing)
 define ('CACHE_MAX_AGE', 864000);			// time to cache in the browser
-define ('VERSION', '1.33');					// version number (to force a cache refresh)
+define ('VERSION', '1.34');					// version number (to force a cache refresh)
 //define ('DIRECTORY_CACHE', './cache');		// cache directory // joen
 require_once('./config.php');	// joen
 define ('MAX_WIDTH', 1500);					// maximum image width
@@ -23,17 +23,9 @@ define ('ALLOW_EXTERNAL', FALSE);			// allow external website (override security
 define ('MEMORY_LIMIT', '30M');				// set PHP memory limit
 define ('MAX_FILE_SIZE', 1500000);			// file size limit to prevent possible DOS attacks (roughly 1.5 megabytes)
 define ('CURL_TIMEOUT', 10);				// timeout duration. Tweak as you require (lower = better)
+define( 'ALLOW_EXTERNAL', false );
 
 // external domains that are allowed to be displayed on your website
-/*$allowedSites = array (
-	'flickr.com',
-	'picasa.com',
-	'blogger.com',
-	'wordpress.com',
-	'img.youtube.com',
-	'upload.wikimedia.org',
-	'photobucket.com',
-);*/
 $allowedSites =  array();
 
 // STOP MODIFYING HERE!
@@ -102,10 +94,8 @@ if ($new_width == 0 && $new_height == 0) {
 }
 
 // ensure size limits can not be abused
-//if ($fixme) {	// joen
 $new_width = min ($new_width, MAX_WIDTH);
 $new_height = min ($new_height, MAX_HEIGHT);
-//}	// joen
 
 // set memory limit to be able to have enough space to resize larger images
 ini_set ('memory_limit', MEMORY_LIMIT);
@@ -517,7 +507,7 @@ function check_cache ($mime_type) {
 				// give 777 permissions so that developer can overwrite
 				// files created by web server user
 				mkdir (DIRECTORY_CACHE);
-				chmod (DIRECTORY_CACHE, 0777); // joen
+				chmod (DIRECTORY_CACHE, 0777);
 			}
 		}
 
@@ -659,17 +649,13 @@ function check_external ($src) {
 				display_error ('source filename invalid');
 			}			
 
-			// convert youtube video urls
-			// need to tidy up the code
-
-			if ($url_info['host'] == 'www.youtube.com' || $url_info['host'] == 'youtube.com') {
-				parse_str ($url_info['query']);
-
-				if (isset ($v)) {
-					$src = 'http://img.youtube.com/vi/' . $v . '/0.jpg';
-					$url_info['host'] = 'img.youtube.com';
-				}
+			if (($url_info['host'] == 'www.youtube.com' || $url_info['host'] == 'youtube.com') && preg_match ('/v=([^&]+)/i', $url_info['query'], $matches)) {
+				$v = $matches[1];
+				$src = 'http://img.youtube.com/vi/' . $v . '/0.jpg';
+				$url_info['host'] = 'img.youtube.com';
 			}
+			
+			$isAllowedSite = false;
 
 			// check allowed sites (if required)
 			if (ALLOW_EXTERNAL) {
@@ -678,9 +664,8 @@ function check_external ($src) {
 
 			} else {
 
-				$isAllowedSite = false;
 				foreach ($allowedSites as $site) {
-					if (strpos (strtolower ($url_info['host']), $site) !== false) {
+					if (preg_match ('/(?:^|\.)' . $site . '$/i', $url_info['host'])) {
 						$isAllowedSite = true;
 					}
 				}
@@ -881,7 +866,6 @@ function display_error ($errorString = '') {
     header ('HTTP/1.1 400 Bad Request');
 	echo '<pre>' . htmlentities ($errorString);
 	echo '<br />Query String : ' . htmlentities ($_SERVER['QUERY_STRING']);
-	echo '<br />TimThumb version : ' . VERSION . '</pre>';
     die ();
 
 }

@@ -75,3 +75,4 @@ Optional parameters:
 * 0.8.3: Security fix.
 * 0.8.4: Security hardening release.
 * 0.8.5: Security fix for TimThumb, incl. latest version of the plugin.
+* 0.8.5.1: Further TimThumb security, incl. latest version again.

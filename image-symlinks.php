@@ -3,7 +3,7 @@
 Plugin Name: Image Symlinks
 Plugin URI: http://noscope.com/
 Description: Simple wrapper for TimThumb&trade; which adds <code>[img]</code> and <code>[latestimages]</code> shortcodes for inserting symbolic link images which are easy to size-refresh when you change your theme.
-Version: 0.8.5
+Version: 0.8.5.1
 Author: Joen Asmussen
 Author URI: http://noscope.com
 */
@@ -14,8 +14,6 @@ Author URI: http://noscope.com
 
 	- move this stuff to plugin onactivate somehow
 	- move mkdir back to wp_mkdir_p
-	- offer to create custom image-symlinks directory in wpcontent instead of uploading to uploads?
-	- move timthumb path and other paths to defines
 
 	- insert tab tweaks
 		- perhaps by default when an image is clicked, it is "selected" after which an "insert" button becomes ungreyed	
